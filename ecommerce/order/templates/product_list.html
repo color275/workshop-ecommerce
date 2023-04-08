@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% load filters %}
+
+
+{% load humanize %}
+
+{% block content %}
+
+<br><br>
+
+<table class="table">
+  <tbody>
+    {% for product in products %}
+      {% if forloop.counter0|divisibleby:5 %}
+        </tr><tr>
+      {% endif %}
+      <td>
+        <div class="card shadow-sm">
+            <img src="{{ product.img_path|resize:'300x300' }}" class="card-img-top text-center" alt="{{ product.name }}">
+         
+          <div class="card-body">
+            <h5 class="card-title">{{ product.name }}</h5>
+            <p class="card-text">{{ product.category }}</p>
+            <p class="card-text font-weight-bold">{{ product.price|intcomma }}원</p>            
+            <a href="{% url 'product_detail' product.id %}" class="btn btn-sm btn-outline-primary">상세</a>
+            <a href="{% url 'product_basket' product.id %}" class="btn btn-sm btn-outline-primary">장바구니</a>
+            <a href="{% url 'product_order' product.id %}" class="btn btn-sm btn-outline-primary">주문</a>
+          </div>
+        </div>
+      </td>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}
+
+{% block script %}
+{% comment %} <script>
+function myFunction() {
+    alert('Link clicked!');
+} {% endcomment %}
+</script>
+{% endblock %}

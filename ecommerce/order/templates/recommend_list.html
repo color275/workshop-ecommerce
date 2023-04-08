@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+
+
+
+{% block content %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ajax Example</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <style>
+        
+
+    </style>
+
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-4">
+            <div class="input-group">
+                <input type="text" class="form-control" id="input-data" placeholder="고객번호를 입력하세요">
+                <button class="btn btn-primary" id="submit-btn">Submit</button>
+            </div>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-md-6">
+            <h4 id="customer-name"></h4>
+            <ul class="list-group" id="recommended-products"></ul>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+</html>
+
+{% endblock %}
+
+{% block scripts %}
+	<script>
+		var menuItem = document.querySelector(".recommend_list");
+		menuItem.classList.add("active");
+
+        $(document).ready(function() {
+            $('#submit-btn').click(function() {
+                // 입력 데이터 가져오기
+                var data = $('#input-data').val();
+
+                // ajax 요청 보내기
+                $.ajax({
+                    type: 'POST',
+                    url: '',
+                    data: {
+                        'data': data,
+                        'csrfmiddlewaretoken': '{{ csrf_token }}'
+                    },
+                    success: function(data) {
+                        var customerName = data.customer_name;
+                        var recommendedProducts = data.recommended_products;
+
+                        $('#customer-name').empty();
+                        $('#customer-name').html("<em>"+customerName+"</em>" +" 님에게 추천할만한 상품입니다.");                    
+                        
+                        $('#recommended-products').empty();
+                        if (recommendedProducts.length > 0) {
+                            const table = $('<table>');
+                            const headerRow = $('<tr>');
+                            headerRow.append('<th>Rank</th>');
+                            headerRow.append('<th>Product ID</th>');
+                            headerRow.append('<th>Product Name</th>');
+                            headerRow.append('<th>Catergory</th>');
+                            headerRow.append('<th>Price</th>');
+                            headerRow.append('<th>Personalize Score</th>');
+                            table.append(headerRow);
+                            
+                            $.each(recommendedProducts, function(index, product) {
+                                const row = $('<tr>');
+                                row.append('<td>'+(index+1)+'</td>');
+                                row.append('<td>'+product.prd_id+'</td>');
+                                row.append('<td>'+product.name+'</td>');
+                                row.append('<td>'+product.category+'</td>');
+                                row.append('<td>'+product.price+'</td>');
+                                row.append('<td><font color=red>'+product.score+'</font></td>');
+                                table.append(row);
+                            });
+                            
+                            $('#recommended-products').append(table);
+                        } else {
+                            $('#recommended-products').append('<p>No recommended products found.</p>');
+                        }
+
+
+
+                        
+                    },
+                    error: function(response) {
+                        console.log(response);
+                    }
+                });
+            });
+        });
+    </script>
+
+{% endblock %}    
