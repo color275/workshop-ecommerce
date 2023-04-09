@@ -155,8 +155,8 @@ AWS_STORAGE_BUCKET_NAME = 'workshop-img'
 AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.{AWS_REGION}.amazonaws.com'
 
 # Use an AWS profile for authentication
-# session = boto3.Session(profile_name='default')
-# s3 = session.resource('s3')
+session = boto3.Session(profile_name='default')
+s3 = session.resource('s3')
 
 
 # Set the default storage engine for Django to use S3
@@ -178,24 +178,24 @@ PASSWORD_VALIDATORS = [
 
 
 AUTH_PASSWORD_VALIDATORS = [
-    # {
-    #     'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    #     'OPTIONS': {
-    #         'user_attributes': ('username', 'email'),
-    #     },
-    # },
     {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
         'OPTIONS': {
             'min_length': 4, # 최소 6자리 이상
         }
     },
-    # {
-    #     'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    # },
-    # {
-    #     'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    # },
+    {
+        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        'OPTIONS': {
+            'user_attributes': ('username', 'email'),
+        },
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+    },
 ]
 
 LOGGING = {

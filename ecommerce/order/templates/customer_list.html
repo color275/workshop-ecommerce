@@ -8,7 +8,7 @@
 </head>
 <body>
 <br>
-<div class="container" style="width: 90%;">
+<div class="container" style="width: 100%;">
     <table class="table">
     <thead>
       <tr>
@@ -32,7 +32,7 @@
         <td>{{ customer.age }}</td>
         <td>{{ customer.gender }}</td>
         <td>{{ customer.address }}</td>
-        <td>{{ customer.last_update_time|date:"Y년 m월 d일 H:i:s" }}</td>
+        <td>{{ customer.last_update_time|date:"Y/m/d H:i:s" }}</td>
       </tr>
       {% endfor %}
     </tbody>

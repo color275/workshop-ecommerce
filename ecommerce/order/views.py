@@ -44,12 +44,9 @@ import random
 # from .models import Product, Order
 
 def product_order(request, product_id):
-    print("#1")
     product = get_object_or_404(Product, pk=product_id)
-    print("#2")
     
     if request.method == 'GET':
-        print("#3")
         order_cnt = random.choice([1,2,3,4])
         promo_id = ""
         order_dt = date.today().strftime('%Y%m%d')
@@ -67,20 +64,13 @@ def product_order(request, product_id):
             order_price=order_price,
             order_dt=order_dt,
         )
-        
-        # return redirect('order_complete', order_id=order.ord_id)
-    
-    # context = {
-    #     'product': product,
-    # }
-    print("#4")
     return redirect('product_list')
 
 
 
 @login_required
 def order_list(request):
-    orders = Order.objects.select_related('cust_id', 'prd_id').order_by('-last_update_time')[:100]
+    orders = Order.objects.select_related('cust_id', 'prd_id').order_by('-last_update_time')[:50]
     total_order_price = orders.aggregate(Sum('order_price'))['order_price__sum'] or 0
     return render(request, 'order_list.html', {'orders': orders, 'total_order_price': total_order_price})
 
