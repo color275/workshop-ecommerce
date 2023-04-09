@@ -7,7 +7,7 @@ class NginxAccessLogMiddleware:
     def __init__(self, get_response):
         self.get_response = get_response
         
-        self.log_file_path = '/var/log/order/access.log'
+        self.log_file_path = '/var/log/ecommerce/access.log'
 
     def __call__(self, request):
         response = self.get_response(request)

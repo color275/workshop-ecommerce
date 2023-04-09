@@ -92,9 +92,9 @@ DATABASES = {
 	'default': { 
     	'ENGINE': 'django.db.backends.mysql', 
         'NAME': 'ecommerce', 
-        'USER': 'admin', 
-        'PASSWORD': 'Admin27512#$', 
-        'HOST': 'prod-chiholee-smartdba-cluster.cluster-cgkgybnzurln.ap-northeast-2.rds.amazonaws.com', 
+        'USER': 'testuser', 
+        'PASSWORD': 'testuser', 
+        'HOST': 'localhost', 
         'PORT': '3306', 
      } 
 }
@@ -155,8 +155,8 @@ AWS_STORAGE_BUCKET_NAME = 'workshop-img'
 AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.{AWS_REGION}.amazonaws.com'
 
 # Use an AWS profile for authentication
-session = boto3.Session(profile_name='default')
-s3 = session.resource('s3')
+# session = boto3.Session(profile_name='default')
+# s3 = session.resource('s3')
 
 
 # Set the default storage engine for Django to use S3
@@ -204,7 +204,7 @@ LOGGING = {
     'handlers': {
         'access_log': {
             'class': 'logging.handlers.WatchedFileHandler',
-            'filename': '/var/log/django/access.log',
+            'filename': '/var/log/ecommerce/access.log',
             'formatter': 'nginx_access_log',
         },
     },
