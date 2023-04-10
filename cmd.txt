@@ -5,4 +5,4 @@ mysqldump -uroot -p ecommerce > ecommece.sql
 mysql -uroot -p ecommerce < ecommerce.sql
 
 # locust, 98 : user 수
-locust -f locustfile.py -H http://localhost:8000 --headless -u 98 -r 98 -t 5m
+locust -f locustfile.py -H http://localhost:8000 --headless -u 90 -r 20 -t 5m

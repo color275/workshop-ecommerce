@@ -13,6 +13,7 @@ from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from django.shortcuts import render
+import random
 
 @login_required
 def home(request):
@@ -48,7 +49,10 @@ def product_order(request, product_id):
     
     if request.method == 'GET':
         order_cnt = random.choice([1,2,3,4])
-        promo_id = ""
+        # PROMO005
+        promo = ['','PROMO001','PROMO002','PROMO003','PROMO004','PROMO005']
+        promo_w = [70,15,8,4,2,1]
+        promo_id = random.choices(promo,promo_w)[0]
         order_dt = date.today().strftime('%Y%m%d')
         order_price = product.price * int(order_cnt)
         
