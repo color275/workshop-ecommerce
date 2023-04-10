@@ -2,6 +2,7 @@ import datetime
 import logging
 import os
 import json
+import random
 
 class NginxAccessLogMiddleware:
     def __init__(self, get_response):
@@ -17,12 +18,21 @@ class NginxAccessLogMiddleware:
             remote_addr = request.META.get('HTTP_X_FORWARDED_FOR', request.META.get('REMOTE_ADDR'))
             remote_username = request.user.username
             remote_userid = request.user.id
-            time_local = datetime.datetime.now().strftime('%d/%b/%Y:%H:%M:%S %z')
+            time_local = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')
             # request_url = request.get_full_path()  # 요청 URL을 가져옵니다.
             request_line = f'{request.method} {request.get_full_path()} HTTP/{request.META.get("SERVER_PROTOCOL")}'
             status = response.status_code
             body_bytes_sent = response.get('Content-Length', '-')
-            http_referer = request.META.get('HTTP_REFERER', '-')
+            
+            referer_list = [
+                'http://www.google.com',
+                'http://www.facebook.com',
+                'http://www.myweb.com',
+                'http://www.yahoo.com',
+                'http://www.bing.com',
+            ]
+            referer_list_w = [60,20,10,5,5]
+            http_referer = random.choices(referer_list, referer_list_w)[0]
             http_user_agent = request.META.get('HTTP_USER_AGENT', '-')
 
             log_dict = {

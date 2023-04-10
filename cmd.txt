@@ -4,5 +4,5 @@ mysqldump -uroot -p ecommerce > ecommece.sql
 # mysql restore
 mysql -uroot -p ecommerce < ecommerce.sql
 
-# locust
-locust -f locustfile.py -H http://localhost:8000 --headless -u 10 -r 10 -t 5m
+# locust, 98 : user 수
+locust -f locustfile.py -H http://localhost:8000 --headless -u 98 -r 98 -t 5m
