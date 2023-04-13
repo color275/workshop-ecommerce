@@ -11,16 +11,20 @@
 <head>
 </head>
 <body>
-    <br>
-    <div class="container">
-        <table class="table">
+    <br><br><br><br><br><br>
+    
+    <div class="col-md-10 ml-5">
+    <h3>
+    최근 주문 정보
+    <small class="text-muted">모든 사용자의 주문 정보</small>
+    </h3>
+    <table class="table table-striped" >
             <thead>
                 <tr>
-                    <th>고객 번호</th>
+                    <th>주문 번호</th>
                     <th>고객 ID</th>
                     <th>고객 명</th>
                     <th>전화번호</th>
-                    <th>상품 ID</th>
                     <th>상품 명</th>
                     <th>가격</th>
                     <th>주문 수량</th>
@@ -31,11 +35,10 @@
             <tbody>
                 {% for order in orders %}
                 <tr>
-                    <td>{{ order.cust_id.id }}</td>
+                    <td>{{ order.ord_id }}</td>
                     <td>{{ order.cust_id.username }}</td>
                     <td>{{ order.cust_id.name }}</td>
                     <td>{{ order.cust_id.phone_number }}</td>
-                    <td>{{ order.prd_id.id }}</td>
                     <td>{{ order.prd_id.name }}</td>
                     <td>{{ order.prd_id.price|intcomma }}원</td>
                     <td>{{ order.order_cnt }}</td>

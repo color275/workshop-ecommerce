@@ -1,5 +1,5 @@
-# mysql backup
-mysqldump -uroot -p ecommerce > ecommece.sql
+# mysql backup (testuser)
+mysqldump -uroot -p ecommerce > ecommerce.sql
 
 # mysql restore
 mysql -uroot -p ecommerce < ecommerce.sql

@@ -1,6 +1,18 @@
 <!DOCTYPE html>
 <html>
 <head>
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-9TGHS8LPJC"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-9TGHS8LPJC');
+  </script>
+
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- Bootstrap 4 CSS -->
@@ -11,53 +23,71 @@
   {% endblock %}
   <style>
     .navbar-nav .nav-item.active .nav-link {
-      color: blue;
-      font-weight: bold;
     }
     .navbar-text {
-      color: green !important;
+      color: white !important;
       font-weight: bold;
     }
+    .navbar-nav li a {
+      font-size: 20px; /* 메뉴 폰트 크기를 20px로 설정 */
+    }
+
+    .navbar-nav .nav-item {
+      margin-right: 50px;
+    }
+
   </style>
+  <script>
+  function showConfirmation() {
+    const confirmation = confirm("로그아웃 하시겠습니까?");
+    if (confirmation) {
+      window.location.href = "{% url 'logout' %}";
+    }
+  }
+</script>
   <title>{% block title %}{% endblock %}</title>
 <body>
 
 	<div id="header">
-	<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">WorkShop</a>
+	<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+    <a class="navbar-brand text-success" href="#">AWS WorkShop</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
       aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav mr-auto">
-        <li class="nav-item {% if request.resolver_match.url_name == 'customer_list' %}active{% endif %}">
-          <a class="nav-link" href="{% url 'customer_list' %}">고객정보</a>
-        </li>
         <li class="nav-item {% if request.resolver_match.url_name == 'product_list' %}active{% endif %}">
           <a class="nav-link" href="{% url 'product_list' %}">상품정보</a>
+        </li>
+        <li class="nav-item {% if request.resolver_match.url_name == 'customer_list' %}active{% endif %}">
+          <a class="nav-link" href="{% url 'customer_list' %}">고객정보</a>
         </li>
         <li class="nav-item {% if request.resolver_match.url_name == 'order_list' %}active{% endif %}">
           <a class="nav-link" href="{% url 'order_list' %}">주문정보</a>
         </li>
-        <li class="nav-item {% if request.resolver_match.url_name == 'recommend_list' %}active{% endif %}">
-          <a class="nav-link" href="{% url 'recommend_list' %}">개인화/추천</a>
+        <li class="nav-item">
+          <a class="nav-link" target="blank" href="https://docs.google.com/spreadsheets/d/1oZNF4gvLqr2F8nE3CdIPfDBhMhFia1n1352ACONNnN0/edit?usp=sharing">엑셀:마케팅</a>
         </li>
+        
+        {% comment %} <li class="nav-item {% if request.resolver_match.url_name == 'recommend_list' %}active{% endif %}">
+          <a class="nav-link" href="{% url 'recommend_list' %}">개인화/추천</a>
+        </li> {% endcomment %}
       </ul>
       <ul class="navbar-nav ml-auto">
         {% if user.is_authenticated %}
         <li class="nav-item">
-          <span class="navbar-text" >Welcome, {{ user.name }}({{ user.username }}) 님!</span>
+          <span class="navbar-text" >환영합니다!! {{ user.name }}({{ user.username }}) 님!</span>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'logout' %}">Logout</a>
-        </li>
+        
         {% else %}
-        <li class="nav-item">
+        {% comment %} <li class="nav-item">
           <a class="nav-link" href="{% url 'login' %}">Login</a>
-        </li>
+        </li> {% endcomment %}
         {% endif %}
       </ul>
+      <a class="btn btn-outline-success my-2 my-sm-0" href="#" onclick="showConfirmation()">Logout</a>
+      
 
     </div>
   </nav>

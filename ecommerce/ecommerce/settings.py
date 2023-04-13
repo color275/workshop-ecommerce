@@ -14,9 +14,16 @@ from pathlib import Path
 
 import os
 import boto3
+import environ
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+env = environ.Env(DEBUG=(bool, True))
+environ.Env.read_env(
+    env_file=os.path.join(BASE_DIR, '.env')
+)
+PERSONALIZE_ARN = env('PERSONALIZE_ARN')
 
 
 # Quick-start development settings - unsuitable for production
@@ -43,6 +50,7 @@ INSTALLED_APPS = [
     'django.contrib.humanize',
     'order',
     'django_filters',
+    'sorl.thumbnail',
 ]
 
 MIDDLEWARE = [
@@ -80,14 +88,6 @@ WSGI_APPLICATION = 'ecommerce.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-
 DATABASES = { 
 	'default': { 
     	'ENGINE': 'django.db.backends.mysql', 
@@ -150,20 +150,17 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 ###################################
 ## AWS Setting
 ###################################
-AWS_REGION = 'ap-northeast-2'
-AWS_STORAGE_BUCKET_NAME = 'workshop-img'
-AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.{AWS_REGION}.amazonaws.com'
-
+# AWS_REGION = 'ap-northeast-2'
+# AWS_STORAGE_BUCKET_NAME = 'workshop-img'
+# AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.{AWS_REGION}.amazonaws.com'
 # Use an AWS profile for authentication
 # session = boto3.Session(profile_name='default')
 # s3 = session.resource('s3')
-
-
 # Set the default storage engine for Django to use S3
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+# DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
-LOGIN_REDIRECT_URL = '/product/'  # 로그인 후 리다이렉트될 URL
-LOGIN_URL = '/login/'  # 로그인이 필요한 페이지에 접근 시 리다이렉트될 URL
+LOGIN_REDIRECT_URL = '/product/'
+LOGIN_URL = '/login/'
 LOGOUT_URL = '/login/'
 
 
@@ -171,7 +168,7 @@ PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
         'OPTIONS': {
-            'min_length': 4, # 최소 6자리 이상
+            'min_length': 4,
         }
     },
 ]
@@ -181,7 +178,7 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
         'OPTIONS': {
-            'min_length': 4, # 최소 6자리 이상
+            'min_length': 4,
         }
     },
     {

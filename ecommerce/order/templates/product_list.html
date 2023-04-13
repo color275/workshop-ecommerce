@@ -9,6 +9,18 @@
 {% block content %}
 
 <head>
+
+<!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-9TGHS8LPJC"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-9TGHS8LPJC');
+  </script>
+
+
 <style>
 .card {
   display: flex;  /* Flexbox를 사용하여 자식 요소를 수평 중앙 정렬합니다. */
@@ -16,11 +28,23 @@
   justify-content: center;  /* 자식 요소를 수직 가운데로 정렬합니다. */
   align-items: center;  /* 자식 요소를 수평 가운데로 정렬합니다. */
 }
+img {
+  width: 150px;
+  height: 250px;
+}
+
 </style>
+
+<script>
+function showMsg(msg) {
+  alert(msg);
+}
+</script>
 </head>
 
-<br><br>
+<br><br><br><br><br><br>
 
+<div class="col-md-10 ml-5">
 <table class="table">
   <tbody>
     {% for product in products %}
@@ -29,21 +53,34 @@
       {% endif %}
       <td>
         <div class="card shadow-sm">
-            <img src="{{ product.img_path|resize:'300x300' }}" class="card-img-top text-center" alt="{{ product.name }}" style="width: 50%; height: 50%;">
+            <img src="{% static product.img_path %}" class="card-img-top text-center" alt="{{ product.name }}" >
          
           <div class="card-body">
-            <h5 class="card-title">{{ product.name }}</h5>
+            <h5 class="card-title">
+              {{ product.name }}
+              {% if personalize_arn != "" %}
+                {% if forloop.counter == 1 %}
+                  <span class="badge badge-danger">추천 #1</span>
+                {% elif forloop.counter == 2 %}
+                  <span class="badge badge-warning">추천 #2</span>
+                {% elif forloop.counter == 3 %}
+                  <span class="badge badge-success">추천 #3</span>
+                {% endif %}
+              {% endif %}
+
+            </h5>
             <p class="card-text">{{ product.category }}</p>
             <p class="card-text font-weight-bold">{{ product.price|intcomma }}원</p>            
-            <a href="{% url 'product_detail' product.id %}" class="btn btn-sm btn-outline-primary">상세</a>
-            <a href="{% url 'product_basket' product.id %}" class="btn btn-sm btn-outline-primary">장바구니</a>
-            <a href="{% url 'product_order' product.id %}" class="btn btn-sm btn-outline-primary">주문</a>
+            <a href="{% url 'product_detail' product.id %}" class="btn btn-sm btn-outline-primary" onclick="showMsg('상세 버튼 클릭')">상세</a>
+            <a href="{% url 'product_basket' product.id %}" class="btn btn-sm btn-outline-primary" onclick="showMsg('장바구니 버튼 클릭')">장바구니</a>
+            <a href="{% url 'product_order' product.id %}" class="btn btn-sm btn-outline-primary" onclick="showMsg('주문 버튼 클릭')">주문</a>
           </div>
         </div>
       </td>
     {% endfor %}
   </tbody>
 </table>
+</div>
 
 {% endblock %}
 

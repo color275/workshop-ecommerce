@@ -14,6 +14,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from django.shortcuts import render
 import random
+from django.conf import settings
 
 @login_required
 def home(request):
@@ -49,7 +50,6 @@ def product_order(request, product_id):
     
     if request.method == 'GET':
         order_cnt = random.choice([1,2,3,4])
-        # PROMO005
         promo = ['','PROMO001','PROMO002','PROMO003','PROMO004','PROMO005']
         promo_w = [70,15,8,4,2,1]
         promo_id = random.choices(promo,promo_w)[0]
@@ -68,7 +68,7 @@ def product_order(request, product_id):
             order_price=order_price,
             order_dt=order_dt,
         )
-    return redirect('product_list')
+    return redirect('order_list')
 
 
 
@@ -86,21 +86,31 @@ def customer_list(request):
 
 @login_required
 def product_list(request):
+
+    personalize_arn = getattr(settings, 'PERSONALIZE_ARN', None)
+
     products = Product.objects.all()
-    context = {'products': products}
+    
+    if len(personalize_arn) > 0 :
+        print("personalize recommend")
+        gr = get_recommendations(str(request.user.id), personalize_arn)
+        recommend_ids = [ i + 1 for i in range(20 )]
+        recommend_ids.reverse()
+        products = sorted(products, key=lambda x: recommend_ids.index(x.id))
+    else :
+        print("normal recommend")
+
+    context = {'products': products, 'personalize_arn':personalize_arn}
     return render(request, 'product_list.html', context)
 
-@login_required
-def get_recommendations(user_id):
+def get_recommendations(user_id, personalize_arn):
     personalizeRt = boto3.client('personalize-runtime', region_name='ap-northeast-2')
     response = personalizeRt.get_recommendations(
-        campaignArn='arn:aws:personalize:ap-northeast-2:531744930393:campaign/ecommerce-campaign',
-        userId=user_id,
+        campaignArn=personalize_arn,
+        userId=str(user_id),
         numResults=10
     )
-    print(response)
-    recommended_items = [item for item in response['itemList']]
-    print(recommended_items)
+    recommended_items = [item for item in response['itemList']]    
     return recommended_items
 
 
@@ -121,7 +131,6 @@ def recommend_list(request):
             scores.append(k['score'])
 
 
-        # recommended_products = Product.objects.filter(prd_id__in=recommended_items)
         customer = Customer.objects.get(cust_id=customer_id)
         customer_name = customer.name
 
