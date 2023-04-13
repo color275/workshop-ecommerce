@@ -195,30 +195,30 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'access_log': {
-            'class': 'logging.handlers.WatchedFileHandler',
-            'filename': '/var/log/ecommerce/access.log',
-            'formatter': 'nginx_access_log',
-        },
-    },
-    'formatters': {
-        'nginx_access_log': {
-            'format': '$remote_addr - $remote_user [$time_local] "$request" '
-                      '$status $body_bytes_sent "$http_referer" '
-                      '"$http_user_agent" "$http_x_forwarded_for"',
-        },
-    },
-    'loggers': {
-        'django.request': {
-            'handlers': ['access_log'],
-            'level': 'INFO',
-            'propagate': True,
-        },
-    },
-}
+# LOGGING = {
+#     'version': 1,
+#     'disable_existing_loggers': False,
+#     'handlers': {
+#         'access_log': {
+#             'class': 'logging.handlers.WatchedFileHandler',
+#             'filename': '/var/log/ecommerce/access.log',
+#             'formatter': 'nginx_access_log',
+#         },
+#     },
+#     'formatters': {
+#         'nginx_access_log': {
+#             'format': '$remote_addr - $remote_user [$time_local] "$request" '
+#                       '$status $body_bytes_sent "$http_referer" '
+#                       '"$http_user_agent" "$http_x_forwarded_for"',
+#         },
+#     },
+#     'loggers': {
+#         'django.request': {
+#             'handlers': ['access_log'],
+#             'level': 'INFO',
+#             'propagate': True,
+#         },
+#     },
+# }
 
 AUTH_USER_MODEL = 'order.User'
