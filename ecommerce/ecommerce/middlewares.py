@@ -13,12 +13,35 @@ class NginxAccessLogMiddleware:
     def __call__(self, request):
         response = self.get_response(request)
 
+
+        # {"remote_addr": "182.219.36.124"
+        # "remote_username": "AWS"
+        # "remote_userid": 2
+        # "time_local": "2023-04-14 23:29:06.900576"
+        # "request_line": "GET /product_detail/2/ HTTP/HTTP/1.1"
+        # "status": 302
+        # "body_bytes_sent": "-"
+        # "http_referer": "http://www.facebook.com"
+        # "http_user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTMLlike Gecko) Chrome/111.0.0.0 Safari/537.36"}
+
         with open(self.log_file_path, 'a') as f:
             # extract information from request and response objects
             remote_addr = request.META.get('HTTP_X_FORWARDED_FOR', request.META.get('REMOTE_ADDR'))
             remote_username = request.user.username
             remote_userid = request.user.id
             time_local = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')
+            
+            servicePrdId = request.get_full_path().split("/")
+
+            page = ""
+            prd_id = ""
+            if len(servicePrdId) ==  4 :
+                page = servicePrdId[1]
+                prd_id = servicePrdId[2]
+            elif len(servicePrdId) ==  3 :
+                page = servicePrdId[1]
+            
+            
             # request_url = request.get_full_path()  # 요청 URL을 가져옵니다.
             request_line = f'{request.method} {request.get_full_path()} HTTP/{request.META.get("SERVER_PROTOCOL")}'
             status = response.status_code
@@ -35,11 +58,16 @@ class NginxAccessLogMiddleware:
             http_referer = random.choices(referer_list, referer_list_w)[0]
             http_user_agent = request.META.get('HTTP_USER_AGENT', '-')
 
+            if 'ELB-HealthChecker' in http_user_agent :
+                return response
+
             log_dict = {
             'remote_addr': remote_addr,
             'remote_username': remote_username,
             'remote_userid': remote_userid,
-            'time_local': time_local,
+            'page': page,
+            'prd_id': prd_id,
+            'timestamp': time_local,
             # 'request_url': request_url,
             'request_line': request_line,
             'status': status,
@@ -49,6 +77,7 @@ class NginxAccessLogMiddleware:
             }
         
             log_msg = json.dumps(log_dict) + '\n'
+            
             
             f.write(log_msg)
 
