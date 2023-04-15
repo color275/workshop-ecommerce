@@ -37,7 +37,7 @@ class NginxAccessLogMiddleware:
             prd_id = None
             if len(servicePrdId) ==  4 :
                 page = servicePrdId[1]
-                prd_id = servicePrdId[2]
+                prd_id = int(servicePrdId[2])
             elif len(servicePrdId) ==  3 :
                 page = servicePrdId[1]
                 
@@ -67,8 +67,8 @@ class NginxAccessLogMiddleware:
             log_dict = {
             'remote_addr': remote_addr,
             'remote_username': remote_username,
-            'remote_userid': remote_userid,
             'page': page,
+            'cust_id': remote_userid,
             'prd_id': prd_id,
             'timestamp': time_local,
             'request_line': request_line,
