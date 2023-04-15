@@ -40,6 +40,7 @@ class NginxAccessLogMiddleware:
                 prd_id = servicePrdId[2]
             elif len(servicePrdId) ==  3 :
                 page = servicePrdId[1]
+                prd_id = -1
             
             
             # request_url = request.get_full_path()  # 요청 URL을 가져옵니다.
