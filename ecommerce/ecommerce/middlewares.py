@@ -60,6 +60,8 @@ class NginxAccessLogMiddleware:
 
             if 'ELB-HealthChecker' in http_user_agent :
                 return response
+            elif page == 'login' :
+                return response
 
             log_dict = {
             'remote_addr': remote_addr,
@@ -68,7 +70,6 @@ class NginxAccessLogMiddleware:
             'page': page,
             'prd_id': prd_id,
             'timestamp': time_local,
-            # 'request_url': request_url,
             'request_line': request_line,
             'status': status,
             'body_bytes_sent': body_bytes_sent,
