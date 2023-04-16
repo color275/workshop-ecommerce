@@ -33,10 +33,11 @@ class NginxAccessLogMiddleware:
             
             servicePrdId = request.get_full_path().split("/")
 
-            page = ""
+            page = servicePrdId[1]
             prd_id = None
-            if len(servicePrdId) ==  4 :
-                page = servicePrdId[1]
+            if page == 'login' :
+                return response
+            elif len(servicePrdId) ==  4 :
                 prd_id = int(servicePrdId[2])
             elif len(servicePrdId) ==  3 :
                 page = servicePrdId[1]
@@ -60,8 +61,6 @@ class NginxAccessLogMiddleware:
             http_user_agent = request.META.get('HTTP_USER_AGENT', '-')
 
             if 'ELB-HealthChecker' in http_user_agent :
-                return response
-            elif page == 'login' :
                 return response
 
             log_dict = {
