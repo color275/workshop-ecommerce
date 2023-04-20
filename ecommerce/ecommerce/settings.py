@@ -23,8 +23,15 @@ env = environ.Env(DEBUG=(bool, True))
 environ.Env.read_env(
     env_file=os.path.join(BASE_DIR, '.env')
 )
+
 PERSONALIZE_ARN = env('PERSONALIZE_ARN')
 
+ENV_ENGINE = env('ENGINE')
+ENV_NAME = env('NAME')
+ENV_DBUSER = env('DBUSER')
+ENV_PASSWORD = env('PASSWORD')
+ENV_HOST = env('HOST')
+ENV_PORT = env('PORT')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
@@ -88,15 +95,15 @@ WSGI_APPLICATION = 'ecommerce.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
-DATABASES = { 
-	'default': { 
-    	'ENGINE': 'django.db.backends.mysql', 
-        'NAME': 'ecommerce', 
-        'USER': 'appuser', 
-        'PASSWORD': 'testuser', 
-        'HOST': 'localhost', 
-        'PORT': '3306', 
-     } 
+DATABASES = {
+    'default': {
+        'ENGINE': ENV_ENGINE,
+        'NAME': ENV_NAME,
+        'USER': ENV_DBUSER,
+        'PASSWORD': ENV_PASSWORD,
+        'HOST': ENV_HOST,
+        'PORT': ENV_PORT,
+     }
 }
 
 
