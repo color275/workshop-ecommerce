@@ -13,4 +13,5 @@ urlpatterns = [
     path('recommend/', recommend_list, name='recommend_list'),
     path('login/', LoginView.as_view(template_name='login.html'), name='login'),
     path('logout/', logout_view, name='logout'),
+    path('change_order_cnt/<int:product_id>/', change_order_cnt, name='change_order_cnt'),
 ]

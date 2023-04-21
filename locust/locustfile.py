@@ -16,8 +16,9 @@ class MyUser(HttpUser):
             '/product_order',
             '/product_detail',
             '/product_basket',
+            '/change_order_cnt',
            ]
-    api_w = [10,70,20]
+    api_w = [10,70,10,10]
     users = [        
                 'acoe',
                 'anminji',
@@ -153,13 +154,14 @@ class MyUser(HttpUser):
     @task
     def my_api_call(self):
 
-        div_item = ['click','basket','review','order']
-        weights = [80*self.order_w,10*self.order_w,6*self.order_w,4*self.order_w]
+        # div_item = ['click','basket','review','order']
+        # weights = [80*self.order_w,10*self.order_w,6*self.order_w,4*self.order_w]
         
         select_api = random.choices(self.api, self.api_w)[0]
         select_product = random.choices(self.product, self.product_w)[0]
 
         response = self.client.get("{}/{}/".format(select_api, select_product), headers={'X-CSRFToken': self.csrf_token})
+        
         # if response.status_code == 200:
         #     print("## [{}] User {}/{}/ API call successful".format(self.username, select_api, select_product))
         # else:

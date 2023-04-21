@@ -156,3 +156,18 @@ def recommend_list(request):
 
     # GET 요청이나 ajax가 아닌 POST 요청 처리
     return render(request, 'recommend_list.html')        
+
+
+def change_order_cnt(request, product_id):
+
+    if Order.objects.exists():
+        max_ord_id = Order.objects.latest('ord_id').ord_id
+        order = Order.objects.get(ord_id=max_ord_id)
+        new_order_cnt = order.order_cnt + 1
+
+        # print("## {} : {}".format(max_ord_id, new_order_cnt))
+
+        order.order_cnt = new_order_cnt
+        order.save()
+
+    return redirect('product_list')
