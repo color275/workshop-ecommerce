@@ -164,11 +164,15 @@ def change_order_cnt(request, product_id):
         # max_ord_id = Order.objects.latest('ord_id').ord_id
         max_ord_id = 1
         order = Order.objects.get(ord_id=max_ord_id)
+        
+        price = int(order.order_price / order.order_cnt)        
+        
         new_order_cnt = order.order_cnt + 1
 
         # print("## {} : {}".format(max_ord_id, new_order_cnt))
 
         order.order_cnt = new_order_cnt
+        order.order_price = price * new_order_cnt
         order.save()
 
     return redirect('product_list')
