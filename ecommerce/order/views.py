@@ -161,7 +161,8 @@ def recommend_list(request):
 def change_order_cnt(request, product_id):
 
     if Order.objects.exists():
-        max_ord_id = Order.objects.latest('ord_id').ord_id
+        # max_ord_id = Order.objects.latest('ord_id').ord_id
+        max_ord_id = 1
         order = Order.objects.get(ord_id=max_ord_id)
         new_order_cnt = order.order_cnt + 1
 
