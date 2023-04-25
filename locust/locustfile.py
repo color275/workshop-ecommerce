@@ -15,10 +15,9 @@ class MyUser(HttpUser):
     api = [
             '/product_order',
             '/product_detail',
-            '/product_basket',
-            '/change_order_cnt',
+            '/product_basket'
            ]
-    api_w = [10,70,10,10]
+    api_w = [10,70,20]
     users = [        
                 'acoe',
                 'anminji',
