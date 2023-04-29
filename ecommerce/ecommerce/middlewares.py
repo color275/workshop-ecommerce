@@ -35,7 +35,7 @@ class NginxAccessLogMiddleware:
 
             page = servicePrdId[1]
             prd_id = None
-            if page == 'login' :
+            if page in ['login','admin']  :
                 return response
             elif len(servicePrdId) ==  4 :
                 prd_id = int(servicePrdId[2])

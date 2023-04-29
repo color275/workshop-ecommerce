@@ -28,7 +28,7 @@ class Product(models.Model):
         db_table = 'product'
 
 class Order(models.Model):
-    ord_id = models.AutoField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     cust_id = models.ForeignKey(User, on_delete=models.DO_NOTHING, db_column='cust_id',)
     prd_id = models.ForeignKey(Product, on_delete=models.DO_NOTHING, db_column='prd_id',)
     promo_id = models.CharField(max_length=255, blank=True, null=True)
