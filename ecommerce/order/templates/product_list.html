@@ -71,9 +71,9 @@ function showMsg(msg) {
             </h5>
             <p class="card-text">{{ product.category }}</p>
             <p class="card-text font-weight-bold">{{ product.price|intcomma }}원</p>            
-            <a href="{% url 'product_detail' product.id %}" class="btn btn-sm btn-outline-primary" onclick="showMsg('상세 버튼 클릭')">상세</a>
-            <a href="{% url 'product_basket' product.id %}" class="btn btn-sm btn-outline-primary" onclick="showMsg('장바구니 버튼 클릭')">장바구니</a>
-            <a href="{% url 'product_order' product.id %}" class="btn btn-sm btn-outline-primary" onclick="showMsg('주문 버튼 클릭')">주문</a>
+            <a href="{% url 'product_detail' product.id %}" class="btn btn-sm btn-outline-primary">상세</a>
+            <a href="{% url 'product_basket' product.id %}" class="btn btn-sm btn-outline-primary">장바구니</a>
+            <a href="{% url 'product_order' product.id %}" class="btn btn-sm btn-outline-primary">주문</a>
           </div>
         </div>
       </td>
