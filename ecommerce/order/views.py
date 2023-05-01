@@ -68,7 +68,7 @@ def product_order(request, product_id):
             order_price=order_price,
             order_dt=order_dt,
         )
-    return redirect('order_list')
+    return redirect('product_list')
 
 
 
