@@ -1,6 +1,11 @@
 from django.urls import path
 from .views import *
 from django.contrib.auth.views import LoginView
+from django.contrib import admin
+
+admin.site.site_header = "AWS Workshop"
+admin.site.index_title = "Admin Page"
+admin.site.site_title = "AWS Workshop"
 
 urlpatterns = [
     path('', product_list, name='product_list'),

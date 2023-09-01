@@ -14,6 +14,7 @@ class User(AbstractUser):
 
     class Meta:
         db_table = 'customer'
+        verbose_name_plural = '고객(customer)'
 
 
 class Product(models.Model):
@@ -26,6 +27,10 @@ class Product(models.Model):
 
     class Meta:
         db_table = 'product'
+        verbose_name_plural = '상품(product)'
+    
+    def __str__(self):
+        return self.name
 
 class Order(models.Model):
     id = models.AutoField(primary_key=True)
@@ -39,6 +44,7 @@ class Order(models.Model):
 
     class Meta:
         db_table = 'orders'
+        verbose_name_plural = '주문(orders)'
 
 
 
