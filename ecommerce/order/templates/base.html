@@ -47,7 +47,7 @@
 </script>
   <title>{% block title %}{% endblock %}</title>
 <body>
-
+  
 	<div id="header">
 	<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
     <a class="navbar-brand text-success" href="#">AWS WorkShop</a>
@@ -77,7 +77,7 @@
       <ul class="navbar-nav ml-auto">
         {% if user.is_authenticated %}
         <li class="nav-item">
-          <span class="navbar-text" >환영합니다!! {{ user.name }}({{ user.username }}) 님!</span>
+          <span class="navbar-text" >환영합니다!! {{ user.name }} 님! <br><font color=red>{{hostname}}</font></span>
         </li>
         
         {% else %}

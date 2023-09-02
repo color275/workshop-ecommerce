@@ -16,6 +16,10 @@ from django.shortcuts import render
 import random
 from django.conf import settings
 
+import socket
+
+
+
 @login_required
 def home(request):
     return redirect('product_list')
@@ -76,12 +80,20 @@ def product_order(request, product_id):
 def order_list(request):
     orders = Order.objects.select_related('cust_id', 'prd_id').order_by('-last_update_time')[:50]
     total_order_price = orders.aggregate(Sum('order_price'))['order_price__sum'] or 0
-    return render(request, 'order_list.html', {'orders': orders, 'total_order_price': total_order_price})
+    context = {
+                'orders': orders, 
+                'total_order_price': total_order_price, 
+                'hostname': socket.gethostname()
+            }
+    
+    return render(request, 'order_list.html', context)
 
 @login_required
 def customer_list(request):
     customers = User.objects.all()
-    context = {'customers': customers}
+    context = {'customers': customers,
+               'hostname': socket.gethostname()
+                }
     return render(request, 'customer_list.html', context)
 
 @login_required
@@ -100,7 +112,10 @@ def product_list(request):
     else :
         print("normal recommend")
 
-    context = {'products': products, 'personalize_arn':personalize_arn}
+    context = {'products': products, 
+               'personalize_arn':personalize_arn,
+               'hostname': socket.gethostname()
+               }
     return render(request, 'product_list.html', context)
 
 def get_recommendations(user_id, personalize_arn):
