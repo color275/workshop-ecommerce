@@ -17,6 +17,7 @@ import random
 from django.conf import settings
 
 import socket
+from django.contrib import messages  
 
 
 
@@ -56,22 +57,27 @@ def product_order(request, product_id):
         order_cnt = random.choice([1,2,3,4])
         promo = ['','PROMO001','PROMO002','PROMO003','PROMO004','PROMO005']
         promo_w = [70,15,8,4,2,1]
-        promo_id = random.choices(promo,promo_w)[0]
+        promo_id = random.choices(promo, promo_w)[0]
         order_dt = date.today().strftime('%Y%m%d')
         order_price = product.price * int(order_cnt)
         
         # retrieve user information from the request or session
         user = request.user
 
-        # create a new order object and save to the database
-        order = Order.objects.create(
-            cust_id=user,
-            prd_id=product,
-            promo_id=promo_id,
-            order_cnt=order_cnt,
-            order_price=order_price,
-            order_dt=order_dt,
-        )
+        try:
+            # create a new order object and save to the database
+            order = Order.objects.create(
+                cust_id=user,
+                prd_id=product,
+                promo_id=promo_id,
+                order_cnt=order_cnt,
+                order_price=order_price,
+                order_dt=order_dt,
+            )
+            messages.success(request, '주문이 성공적으로 생성되었습니다.')  # 성공 메시지 추가
+        except Exception as e:
+            messages.error(request, f'주문 생성 중 오류 발생: {str(e)}')  # 에러 메시지 추가
+
     return redirect('product_list')
 
 
